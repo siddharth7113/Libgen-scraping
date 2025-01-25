@@ -1,4 +1,5 @@
 query,search_type
+microfinance,title
 stock market,title
 finance,title
 investment strategies,title
@@ -18,7 +19,6 @@ real estate finance,title
 hedge funds,title
 portfolio management,title
 quantitative finance,title
-microfinance,title
 financial statement analysis,title
 market valuation,title
 capital budgeting,title
@@ -128,7 +128,6 @@ venture capital,title
 alternative investments,title
 corporate governance,title
 corporate social responsibility,title
-environmental, social, and governance (ESG),title
 socially responsible investing,title
 climate finance,title
 carbon markets,title
