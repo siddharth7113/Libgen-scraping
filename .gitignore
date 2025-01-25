@@ -1,0 +1,58 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.pipenv/
+pip-wheel-metadata/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.nox/
+.pytest_cache/
+
+# Environments variables / Secrets (adjust or remove as needed)
+*.env
+*.env.*
+.envrc
+.secret
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# IDE / Editor configs
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+*.out
+
+# Python specific settings & debug
+.python_history
+
+# macOS / Linux / Windows system files (optional, but useful)
+.DS_Store
+Thumbs.db
+Desktop.ini
+
