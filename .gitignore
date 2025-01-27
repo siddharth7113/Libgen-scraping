@@ -56,3 +56,6 @@ htmlcov/
 Thumbs.db
 Desktop.ini
 
+
+# Directory
+dataset/

@@ -5,7 +5,6 @@ from tabulate import tabulate  # For pretty-printing tables
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-
 def view_stats(db_path="database/books.db"):
     """
     View and analyze statistics from the books database for LLM scraping purposes.
@@ -62,6 +61,24 @@ def view_stats(db_path="database/books.db"):
         """)
         avg_size_by_format = cursor.fetchall()
 
+        # Total size by format
+        cursor.execute("""
+            SELECT extension, SUM(CAST(REPLACE(size, ' MB', '') AS REAL)) AS total_size
+            FROM books
+            WHERE size LIKE '% MB' AND extension IS NOT NULL
+            GROUP BY extension
+            ORDER BY total_size DESC;
+        """)
+        total_size_by_format = cursor.fetchall()
+
+        # Overall total size (for all books)
+        cursor.execute("""
+            SELECT SUM(CAST(REPLACE(size, ' MB', '') AS REAL))
+            FROM books
+            WHERE size LIKE '% MB';
+        """)
+        total_size_all = cursor.fetchone()[0] or 0.0
+
         # Display results
         logging.info(f"Total number of books: {total_books}")
         print("\nTop 5 Titles:")
@@ -75,6 +92,11 @@ def view_stats(db_path="database/books.db"):
 
         print("\nAverage File Size by Format (MB):")
         print(tabulate(avg_size_by_format, headers=["Format", "Avg Size (MB)"], tablefmt="grid"))
+
+        print("\nTotal File Size by Format (MB):")
+        print(tabulate(total_size_by_format, headers=["Format", "Total Size (MB)"], tablefmt="grid"))
+
+        print(f"\nTotal Size of All Books (MB): {total_size_all:.2f} MB")
 
     except sqlite3.Error as e:
         logging.error(f"Error accessing the database: {e}")

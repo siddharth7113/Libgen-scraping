@@ -53,10 +53,10 @@ def save_checkpoint(conn, query, search_type, last_page):
     except sqlite3.Error as e:
         logging.error(f"Error saving checkpoint: {e}")
 
-
 def read_input_csv(file_path):
     """
-    Read a CSV file containing queries and search types.
+    Reads queries and search types from a CSV file.
+    Each row must have a 'query' and 'search_type' column.
 
     Args:
         file_path (str): Path to the CSV file.
@@ -65,18 +65,24 @@ def read_input_csv(file_path):
         list: A list of dictionaries with 'query' and 'search_type'.
     """
     queries = []
-    if not os.path.exists(file_path):
-        logging.error(f"CSV file not found: {file_path}")
-        return queries
-
     try:
-        with open(file_path, newline='', encoding='utf-8') as csvfile:
+        with open(file_path, 'r') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                queries.append({
-                    "query": row.get("query", "").strip(),
-                    "search_type": row.get("search_type", "title").strip().lower()
-                })
+                try:
+                    query = row.get('query', '').strip()
+                    search_type = row.get('search_type', 'title').strip()
+                    
+                    if not query:
+                        raise ValueError("Empty query field.")
+                    
+                    queries.append({"query": query, "search_type": search_type})
+                except ValueError as e:
+                    logging.warning(f"Skipping corrupted row: {row}. Error: {e}")
+                except KeyError as e:
+                    logging.warning(f"Missing expected column: {e}. Skipping row: {row}")
     except Exception as e:
         logging.error(f"Error reading CSV file: {e}")
+    
     return queries
+

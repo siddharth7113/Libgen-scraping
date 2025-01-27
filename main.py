@@ -22,6 +22,7 @@ def main(query=None, search_type="title", max_pages=None, input_csv=None):
     queries = []
     if input_csv:
         queries = read_input_csv(input_csv)
+        logging.info(f"Parsed queries: {queries}")
     elif query:
         queries = [{"query": query, "search_type": search_type}]
     else:
@@ -41,19 +42,28 @@ def main(query=None, search_type="title", max_pages=None, input_csv=None):
         try:
             # Initialize search
             search = SearchRequest(current_query, current_search_type, results_per_page=100)
-            all_books = search.aggregate_request_data(max_pages=max_pages)
+            all_books = search.aggregate_request_data(max_pages=max_pages, start_page=last_page + 1)
+
+            # Log the type and structure of all_books
+            # logging.info(f"Type of all_books: {type(all_books)}, Sample: {all_books[:5]}")
 
             # Process books and save checkpoints
             for book in all_books:
-                if not db_utils.check_duplicate(book["ID"]):
-                    db.insert_book(book)
+                if isinstance(book, dict) and "ID" in book:
+                    if not db_utils.check_duplicate(book["ID"]):
+                        db.insert_book(book)
+                else:
+                    logging.error(f"Invalid book entry: {book}")
 
             # Clear checkpoint after query completion
             conn.execute("DELETE FROM checkpoints WHERE query = ? AND search_type = ?", (current_query, current_search_type))
             logging.info(f"Completed query '{current_query}', checkpoint cleared.")
 
         except Exception as e:
+            save_checkpoint(conn, current_query, current_search_type, last_page)
             logging.error(f"Error processing query '{current_query}': {e}")
+            continue  # Skip to the next query
+
 
         deduplication_triggered = True  # Set flag to indicate deduplication needs to be run
 
@@ -72,7 +82,6 @@ def main(query=None, search_type="title", max_pages=None, input_csv=None):
 
     # Log script completion
     logging.info(f"Script completed in {time.time() - start_time:.2f} seconds.")
-
 
 if __name__ == "__main__":
     import argparse

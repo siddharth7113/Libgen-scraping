@@ -20,6 +20,7 @@ class DBUtils:
             raise FileNotFoundError(f"Database file not found at {self.db_path}")
 
         self.connect()
+        self.ensure_columns()  # Ensure new columns are present
 
     def connect(self):
         """
@@ -31,6 +32,23 @@ class DBUtils:
         except sqlite3.Error as e:
             logging.error(f"Failed to connect to the database: {e}")
             raise
+
+    def ensure_columns(self):
+        """
+        Ensure the `link_status` and `link_error_message` columns exist in the books table.
+        """
+        try:
+            with self.conn:
+                self.conn.execute("""
+                    ALTER TABLE books ADD COLUMN link_status TEXT DEFAULT 'Pending';
+                """)
+                self.conn.execute("""
+                    ALTER TABLE books ADD COLUMN link_error_message TEXT DEFAULT NULL;
+                """)
+                logging.info("Ensured new columns: link_status, link_error_message.")
+        except sqlite3.OperationalError as e:
+            # Ignore errors if the columns already exist
+            logging.info("Columns already exist or could not be added.")
 
     def check_duplicate(self, libgen_id):
         """
@@ -107,6 +125,26 @@ class DBUtils:
             logging.error(f"Error during deduplication: {e}")
             self.conn.rollback()  # Rollback in case of an error
 
+    def update_link_status(self, book_id, status, error_message=None):
+        """
+        Update the link status and error message for a book.
+        
+        Args:
+            book_id (int): The ID of the book to update.
+            status (str): The new status of the link (e.g., 'Valid', 'Error').
+            error_message (str): The error message, if applicable.
+        """
+        try:
+            with self.conn:
+                self.conn.execute("""
+                    UPDATE books
+                    SET link_status = ?, link_error_message = ?
+                    WHERE id = ?;
+                """, (status, error_message, book_id))
+                logging.info(f"Updated link status for book ID={book_id} to '{status}'.")
+        except sqlite3.Error as e:
+            logging.error(f"Error updating link status for book ID={book_id}: {e}")
+
     def close(self):
         """
         Close the database connection.
@@ -114,3 +152,12 @@ class DBUtils:
         if self.conn:
             self.conn.close()
             logging.info("Database connection closed.")
+
+
+# if __name__ == "__main__":
+#     db_utils = DBUtils()
+#     try:
+#         db_utils.deduplicate_books()
+##         db_utils.update_link_status(1, "Valid", None)
+#     finally:
+#         db_utils.close()

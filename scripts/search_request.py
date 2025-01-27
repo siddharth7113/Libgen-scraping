@@ -69,15 +69,6 @@ class SearchRequest:
         return response.text
 
     def parse_search_results(self, html_content):
-        """
-        Parse the HTML content of the search page to extract book data.
-
-        Args:
-            html_content (str): The raw HTML content of the search results page.
-
-        Returns:
-            list: A list of dictionaries, where each dictionary contains details of a book.
-        """
         soup = BeautifulSoup(html_content, "html.parser")
         for subheading in soup.find_all("i"):
             subheading.decompose()
@@ -116,6 +107,7 @@ class SearchRequest:
         logging.info(f"Extracted {len(structured_data)} rows from the search page.")
         return structured_data
 
+
     def aggregate_request_data(self, max_pages=None, start_page=1):
         """
         Orchestrate the entire workflow to fetch and parse data across multiple pages.
@@ -132,8 +124,12 @@ class SearchRequest:
 
         while True:
             logging.info(f"Processing page {page}...")
-            html_content = self.get_search_page(page)
-            parsed_data = self.parse_search_results(html_content)
+            try:
+                html_content = self.get_search_page(page)
+                parsed_data = self.parse_search_results(html_content)
+            except Exception as e:
+                logging.error(f"Error processing page {page}: {e}")
+                break
 
             if not parsed_data:
                 logging.info("No more results found. Stopping pagination.")
