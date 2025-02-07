@@ -1,68 +1,77 @@
-import sqlite3
+"""
+utils.py
+
+This module contains utility functions related to database checkpoints
+and reading an input CSV of queries. It primarily helps coordinate
+search progress tracking and query loading.
+"""
+import aiosqlite
 import logging
 import csv
 import os
 
-# Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-
-def get_checkpoint(conn, query, search_type):
+# --------------------------------------------------
+# 1) ASYNC GET_CHECKPOINT
+# --------------------------------------------------
+async def get_checkpoint(conn: aiosqlite.Connection, query: str, search_type: str) -> int:
     """
-    Retrieve the last processed page for a given query and search type.
+    Asynchronously retrieve the last processed page for a given query and search type.
 
     Args:
-        conn: SQLite database connection.
-        query (str): The query being processed.
-        search_type (str): The type of search.
+        conn: aiosqlite.Connection
+        query: The query being processed.
+        search_type: The type of search (e.g., "title").
 
     Returns:
-        int: The last processed page (0 if no checkpoint exists).
+        int: The last processed page (0 if none).
     """
     try:
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT last_page FROM checkpoints WHERE query = ? AND search_type = ?;
-        """, (query, search_type))
-        result = cursor.fetchone()
-        return result[0] if result else 0
-    except sqlite3.Error as e:
+        async with conn.execute(
+            """
+            SELECT last_page
+            FROM checkpoints
+            WHERE query = ? AND search_type = ?;
+            """,
+            (query, search_type),
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row[0] if row else 0
+    except Exception as e:
         logging.error(f"Error fetching checkpoint: {e}")
         return 0
 
-
-def save_checkpoint(conn, query, search_type, last_page):
+# --------------------------------------------------
+# 2) ASYNC SAVE_CHECKPOINT
+# --------------------------------------------------
+async def save_checkpoint(conn: aiosqlite.Connection, query: str, search_type: str, last_page: int):
     """
-    Save or update the checkpoint for a given query and search type.
-
-    Args:
-        conn: SQLite database connection.
-        query (str): The query being processed.
-        search_type (str): The type of search.
-        last_page (int): The last processed page.
+    Asynchronously save or update the checkpoint for a given query and search type.
     """
     try:
-        with conn:
-            conn.execute("""
-                INSERT INTO checkpoints (query, search_type, last_page)
-                VALUES (?, ?, ?)
-                ON CONFLICT(query, search_type)
-                DO UPDATE SET last_page = excluded.last_page, updated_at = CURRENT_TIMESTAMP;
-            """, (query, search_type, last_page))
+        await conn.execute(
+            """
+            INSERT INTO checkpoints (query, search_type, last_page)
+            VALUES (?, ?, ?)
+            ON CONFLICT(query, search_type)
+            DO UPDATE SET
+                last_page = excluded.last_page,
+                updated_at = CURRENT_TIMESTAMP;
+            """,
+            (query, search_type, last_page)
+        )
+        await conn.commit()
         logging.info(f"Checkpoint saved: query='{query}', search_type='{search_type}', last_page={last_page}")
-    except sqlite3.Error as e:
+    except Exception as e:
         logging.error(f"Error saving checkpoint: {e}")
 
+# --------------------------------------------------
+# 3) Synchronous CSV Reading (can stay the same)
+# --------------------------------------------------
 def read_input_csv(file_path):
     """
-    Reads queries and search types from a CSV file.
-    Each row must have a 'query' and 'search_type' column.
-
-    Args:
-        file_path (str): Path to the CSV file.
-
-    Returns:
-        list: A list of dictionaries with 'query' and 'search_type'.
+    Synchronous reading of CSV is fine, no conflict with aiosqlite.
     """
     queries = []
     try:
@@ -72,10 +81,8 @@ def read_input_csv(file_path):
                 try:
                     query = row.get('query', '').strip()
                     search_type = row.get('search_type', 'title').strip()
-                    
                     if not query:
                         raise ValueError("Empty query field.")
-                    
                     queries.append({"query": query, "search_type": search_type})
                 except ValueError as e:
                     logging.warning(f"Skipping corrupted row: {row}. Error: {e}")
@@ -83,6 +90,4 @@ def read_input_csv(file_path):
                     logging.warning(f"Missing expected column: {e}. Skipping row: {row}")
     except Exception as e:
         logging.error(f"Error reading CSV file: {e}")
-    
     return queries
-

@@ -1,0 +1,256 @@
+query,search_type
+finance domain,title
+financial markets & investments,title
+stock markets & equities,title
+s&p 500 annual performance review,title
+stock market exchanges,title
+market indices,title
+bond markets,title
+yield curves,title
+derivatives and futures markets,title
+options,title
+interest rate swaps,title 
+currency swaps,title
+interest rate,title
+currency swaps,title
+hedging strategies,title
+real estate investments,title
+reits,title
+valuation,title
+net operating income,title
+cap rate,title
+commodities and forex trading,title
+futures,title
+options trading,title
+pricing factors,title
+primary vs. secondary markets,title
+corporate bonds,title
+government bonds,title
+market efficiency,title
+efficient market hypothesis,title
+trading strategies,title
+arbitrage,title
+statistical arbitrage,title
+risk arbitrage,title
+high-frequency trading,title
+market making,title
+latency arbitrage,title
+momentum and trend following,title
+identifying market trends,title
+equity securities,title
+common vs. preferred stocks,title
+dividends,title
+ownership/voting rights,title
+liquidation preferences,title
+fixed income securities,title
+bond pricing,title
+yield to maturity,title
+yield to call,title
+duration and convexity: sensitivity to interest rate changes,title
+top mergers and acquisitions of the year,title
+microsoft acquires activision blizzard,title
+elon takes over twitter,title
+broadcom’s acquisition of vmware,title
+amazon purchases one medical,title
+m&a valuation methods,title
+comparable company analysis,title
+precedent transaction analysis,title
+dcf,title
+lbo modeling,title
+upcoming ipos and market debut analysis,title
+quarterly earnings reports and forecasts,title
+board of directors,title
+executive compensation,title
+stock options,title
+performance-based pay,title
+sustainability initiatives,title
+corporate ethics,title
+financial statements and accounting,title
+capital structure,title
+debt financing,title
+debt-to-equity ratio,title
+debt issuance,title
+coupon rates,title
+leverage,title
+restrictive clauses,title
+equity financing,title
+capital raising,title
+shareholder impact,title
+dilution effects,title
+capital structure theories,title
+modigliani-miller,title
+pecking order theory,title
+cost of capital,title
+weighted average cost of capital,title
+risk-adjusted discount rate,title
+dividend policy,title
+dividend payout ratio,title
+dividend discount model,title
+gordon growth model,title
+stock buybacks,title
+banking,title
+commercial and retail banking,title
+budgeting and saving,title
+budgeting methods,title
+zero-based,title
+50/30/20 rule,title
+retirement planning,title
+401(k) and ira investment strategies,title
+roth ira,title
+traditional accounts,title
+pension plans,title
+early withdrawal penalties,title
+required minimum distributions,title
+credit and debt management,title
+debt repayment plans,title
+student loan repayment,title
+mortgage refinancing,title
+fico score,title
+credit reports,title
+taxes and wealth management,title
+wills and trusts,title
+beneficiary designations,title
+tax deductions,title
+standard vs. itemized,title
+capital gains tax,title
+tax-advantaged accounts,title
+hsa,title
+insurance,title
+life insurance,title
+disability insurance,title
+health insurance,title
+property and casualty insurance,title
+financial law and regulation,title
+securities law,title
+banking regulation,title
+anti-money laundering,title
+cryptocurrency regulation,title
+tax law,title
+global financial laws,title
+fatf blacklist,title
+basel iii requirements for banks,title
+regional/national laws,title
+sec regulation on hedge funds,title
+gdpr and financial data privacy laws (europe),title
+rbi guidelines on digital lending,title
+european union finance laws,title
+asia-pacific financial regulations,title
+hts,title
+finra,title
+cfpb,title
+fdic,title
+irs,title
+financial laws,title
+hedge fund compliance,title
+sec regulations,title
+volcker rule,title
+kyc and aml procedures for banks,title
+sox compliance for public companies,title
+investor psychology and biases,title
+overconfidence bias,title
+loss aversion,title
+market anomalies,title
+herding behavior and decision making,title
+financial wellness and mental health,title
+investment and portfolio management,title
+asset allocation,title
+strategic allocation,title
+long-term allocation strategies,title
+short-term allocation strategies,title
+risk management and diversification,title
+market and credit risk,title
+var models in market risk,title
+historical var,title
+conditional var,title
+counterparty risk,title
+default risk,title
+operational risk,title
+internal failures risk,title
+fraud risk,title
+systemic risk,title
+hedging,title
+derivatives hedging,title
+risk parity,title
+risk allocation models,title
+risk tolerance,title
+hedge funds and private equity,title
+top performing hedge funds,title
+hedge fund strategies,title
+market neutrality,title
+alpha generation,title
+performance metrics,title
+alpha,title
+beta,title
+sharpe ratio,title
+private equity exit strategies,title
+secondary sales,title
+portfolio theory,title
+efficient frontier: optimal portfolio construction,title
+capital market line,title
+seed funding,title
+angel investors,title
+early-stage investment,title
+global financial markets,title
+frontier markets and developing economies,title
+empea,title
+ifc,title
+african development bank,title 
+asian development bank,title
+financial products and innovations,title
+finance news,title
+market news,title
+stock market daily reports,title
+commodity price fluctuations,title
+forex trends,title
+bond yield curve analysis,title
+macroeconomic news,title
+monthly cpi inflation data,title
+quarterly gdp growth reports,title
+interest rate hikes and central bank announcements,title
+employment reports and labor market data,title
+financial crime and fraud,title
+high-profile money laundering cases,title
+insider trading investigations,title
+ponzi schemes and pyramid scandals,title
+regulatory and policy news,title
+new sec regulations on crypto markets,title
+basel iii compliance updates,title
+changes in tax policies for hedge funds,title
+financial certifications and accreditations,title
+cfa (chartered financial analyst),title
+cfp (certified financial planner),title
+risk and compliance,title
+frm (financial risk manager),title
+prm (professional risk manager),title
+accounting and auditing,title
+cpa (certified public accountant),title
+cma (certified management accountant),title
+fintech,title
+blockchain and cryptocurrencies,title
+digital currency,title
+bitcoin,title
+ethereum,title
+initial coin offerings,title
+digital banking,title
+neobanks,title
+robo-advisors,title
+algorithmic portfolio management,title
+crowdfunding,title
+equity crowdfunding,title
+donation-based crowdfunding,title
+payment systems and management,title
+blockchain payments,title
+decentralized financial transactions,title
+insurtech,title
+regtech,title
+stochastic processes,title
+geometric brownian motion,title
+poisson processes,title
+derivative pricing models,title
+black-scholes model,title
+binomial model,title
+monte carlo simulations,title
+risk-neutral pricing,title
+risk-neutral valuation,title
+credit risk modeling,title
+credit 

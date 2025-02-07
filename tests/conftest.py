@@ -1,6 +1,5 @@
 import pytest
 from database.db_handler import DatabaseHandler  # Your custom DatabaseHandler class
-from database.db_utils import DBUtils  # Your custom DBUtils class
 from scripts.libgen_search import LibgenSearch  # Your custom LibgenSearch class
 from random_word import RandomWords
 import os
@@ -28,7 +27,7 @@ def db_handler():
 
 
 @pytest.fixture(scope="function")
-def db_utils():
+
     """
     Fixture to provide a DBUtils instance for the test database.
     """
